@@ -38,8 +38,31 @@ const App = () => {
   const [timer, setTimer] = useState(TIMER_DURATION);
   const [showHint, setShowHint] = useState(false);
   const [leaderboard, setLeaderboard] = useState(() => {
-    const saved = localStorage.getItem("quizLeaderboard");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("quizLeaderboard");
+      if (!saved) return [];
+
+      const parsedData = JSON.parse(saved);
+
+      // Validate the data structure
+      if (!Array.isArray(parsedData)) return [];
+
+      // Ensure each entry has the correct shape
+      const validData = parsedData.filter(
+        (entry) =>
+          entry &&
+          typeof entry === "object" &&
+          typeof entry.name === "string" &&
+          typeof entry.score === "number"
+      );
+
+      return validData;
+    } catch (error) {
+      console.error("Error loading leaderboard:", error);
+      // Clear invalid data from localStorage
+      localStorage.removeItem("quizLeaderboard");
+      return [];
+    }
   });
   const [showWelcome, setShowWelcome] = useState(true);
   const [playerName, setPlayerName] = useState("");
@@ -72,7 +95,10 @@ const App = () => {
   //   * Kapag huling tanong na, tatapusin ang quiz
   //   * Kung hindi pa huling tanong, lilipat sa susunod
   const handleAnswer = (selectedOption) => {
-    const correct = selectedOption === questions[currentQuestion].correct;
+    const currentQuestionData = questions[currentQuestion];
+    if (!currentQuestionData) return;
+
+    const correct = selectedOption === currentQuestionData.correct;
     setIsCorrect(correct);
     setShowFeedback(true);
 
@@ -103,14 +129,40 @@ const App = () => {
   //   * Kinukuha lang ang top 5 scores
   //   * Sine-save ang bagong leaderboard sa localStorage para hindi mawala
   const updateLeaderboard = (finalScore) => {
-    const newLeaderboard = [
-      ...leaderboard,
-      { name: playerName, score: finalScore },
-    ]
+    // Ensure we're working with the current score
+    const currentScore = finalScore + (timer > BONUS_POINTS_THRESHOLD ? 5 : 0);
+
+    const newEntry = {
+      name: playerName,
+      score: currentScore,
+    };
+
+    const newLeaderboard = [...leaderboard];
+    const existingIndex = newLeaderboard.findIndex(
+      (entry) => entry.name === playerName
+    );
+
+    if (existingIndex >= 0) {
+      if (currentScore > newLeaderboard[existingIndex].score) {
+        newLeaderboard[existingIndex] = newEntry;
+      }
+    } else {
+      newLeaderboard.push(newEntry);
+    }
+
+    const updatedLeaderboard = newLeaderboard
       .sort((a, b) => b.score - a.score)
       .slice(0, 5);
-    setLeaderboard(newLeaderboard);
-    localStorage.setItem("quizLeaderboard", JSON.stringify(newLeaderboard));
+
+    setLeaderboard(updatedLeaderboard);
+    try {
+      localStorage.setItem(
+        "quizLeaderboard",
+        JSON.stringify(updatedLeaderboard)
+      );
+    } catch (error) {
+      console.error("Error saving leaderboard:", error);
+    }
   };
 
   // Paliwanag kung paano gumagana ang handleRestart function:
@@ -163,16 +215,16 @@ const App = () => {
   if (showWelcome) {
     return (
       <div className="quiz-container welcome-screen">
-        <h1>Welcome to the Quiz!</h1>
+        <h1>DOST Quiz</h1>
         <form onSubmit={handleStartQuiz} className="welcome-form">
           <div className="input-group">
-            <label htmlFor="playerName">Enter your name to start:</label>
+            <label htmlFor="playerName">Please enter your name:</label>
             <input
               type="text"
               id="playerName"
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
-              placeholder="Your name"
+              placeholder="Type your name here"
               aria-label="Player name"
               className="name-input"
               minLength={2}
