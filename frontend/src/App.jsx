@@ -267,6 +267,11 @@ const App = () => {
     );
   }
 
+  // Add safety check for questions array
+  if (!questions || !questions[currentQuestion]) {
+    return <div>Loading questions...</div>;
+  }
+
   return (
     <div className="quiz-container">
       <Timer timeLeft={timer} />
