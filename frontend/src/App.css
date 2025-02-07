@@ -22,39 +22,88 @@ body, html {
 .quiz-container {
   background: white;
   border-radius: 1.5rem;
-  padding: 2.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   max-width: 800px;
   width: 100%;
-  margin: 2rem auto;
+  margin: 1rem auto;
+  transition: all 0.3s ease;
+}
+
+/* Welcome screen specific styles */
+.welcome-screen {
+  text-align: center;
+}
+
+.welcome-screen h1 {
+  font-size: 2.5rem;
+  color: #2d3748;
+  margin-bottom: 2rem;
+}
+
+.welcome-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.input-group {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.name-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+
+.name-input:focus {
+  outline: none;
+  border-color: #4a5568;
+  box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.2);
 }
 
 /* Question text */
 .question {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: #1a202c;
-  margin-bottom: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 2rem;
   line-height: 1.5;
 }
 
 /* Score display */
 .score {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1a202c;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2d3748;
   margin-bottom: 2rem;
+  padding: 0.75rem 1.5rem;
+  background: #f7fafc;
+  border-radius: 0.75rem;
+  display: inline-block;
 }
 
 /* Timer styles */
 .timer {
   background: #4a5568;
   padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
+  border-radius: 0.75rem;
   font-weight: 600;
   color: white;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   display: inline-block;
+  box-shadow: 0 4px 6px rgba(74, 85, 104, 0.1);
 }
 
 /* Options grid */
@@ -66,23 +115,26 @@ body, html {
 
 /* Option button */
 .option-button {
-  background: #edf2f7;
+  background: #f7fafc;
   border: 2px solid #e2e8f0;
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   padding: 1.25rem;
   font-size: 1.1rem;
   font-weight: 500;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   cursor: pointer;
-  color: #1a202c;
+  color: #2d3748;
   width: 100%;
   text-align: left;
+  position: relative;
+  overflow: hidden;
 }
 
 .option-button:hover:not(:disabled) {
   background: #4a5568;
   color: white;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 85, 104, 0.15);
 }
 
 .option-button:disabled {
@@ -94,20 +146,27 @@ body, html {
 .hint {
   color: #4a5568;
   font-size: 1rem;
-  margin-top: 1rem;
-  padding: 1rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
   background: #f7fafc;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   border-left: 4px solid #4a5568;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Feedback message */
 .feedback {
-  margin-top: 1.5rem;
+  margin: 1.5rem 0;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-weight: 600;
   text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .feedback.correct {
@@ -169,13 +228,15 @@ body, html {
   font-size: 1.1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   margin: 0.5rem;
+  box-shadow: 0 4px 6px rgba(74, 85, 104, 0.1);
 }
 
 .action-button:hover {
   background: #2d3748;
   transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(74, 85, 104, 0.15);
 }
 
 .share-button {
@@ -188,19 +249,20 @@ body, html {
 
 /* Hint button */
 .hint-button {
-  background: #4a5568;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
+  background: transparent;
+  color: #4a5568;
+  border: 2px solid #4a5568;
+  border-radius: 0.75rem;
   padding: 0.75rem 1.5rem;
-  margin-top: 1rem;
+  margin: 1.5rem 0;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
   font-weight: 500;
 }
 
 .hint-button:hover {
-  background: #2d3748;
+  background: #4a5568;
+  color: white;
   transform: translateY(-2px);
 }
 

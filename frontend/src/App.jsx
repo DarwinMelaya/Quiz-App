@@ -41,6 +41,8 @@ const App = () => {
     const saved = localStorage.getItem("quizLeaderboard");
     return saved ? JSON.parse(saved) : [];
   });
+  const [showWelcome, setShowWelcome] = useState(true);
+  const [playerName, setPlayerName] = useState("");
 
   useEffect(() => {
     let interval;
@@ -101,8 +103,11 @@ const App = () => {
   //   * Kinukuha lang ang top 5 scores
   //   * Sine-save ang bagong leaderboard sa localStorage para hindi mawala
   const updateLeaderboard = (finalScore) => {
-    const newLeaderboard = [...leaderboard, finalScore]
-      .sort((a, b) => b - a)
+    const newLeaderboard = [
+      ...leaderboard,
+      { name: playerName, score: finalScore },
+    ]
+      .sort((a, b) => b.score - a.score)
       .slice(0, 5);
     setLeaderboard(newLeaderboard);
     localStorage.setItem("quizLeaderboard", JSON.stringify(newLeaderboard));
@@ -117,6 +122,8 @@ const App = () => {
   //   * Binabago ang quiz status para hindi na completed
   //   * Binabalik ang timer sa original na duration
   const handleRestart = () => {
+    setShowWelcome(true);
+    setPlayerName("");
     setCurrentQuestion(0);
     setScore(0);
     setShowFeedback(false);
@@ -145,19 +152,42 @@ const App = () => {
     }
   };
 
-  // Paliwanag kung paano gumagana ang conditional rendering:
-  // - Tinitingnan kung tapos na ang quiz (quizCompleted)
-  // - Kung tapos na:
-  //   * Magpapakita ng FinalScore component
-  //   * Ipapasa ang score, leaderboard at mga functions para sa restart at share
-  if (quizCompleted) {
+  // Add new handler for starting the quiz
+  const handleStartQuiz = (e) => {
+    e.preventDefault();
+    if (playerName.trim().length < 2) return;
+    setShowWelcome(false);
+  };
+
+  // Add welcome page conditional render
+  if (showWelcome) {
     return (
-      <FinalScore
-        score={score}
-        leaderboard={leaderboard}
-        onRestart={handleRestart}
-        onShare={handleShare}
-      />
+      <div className="quiz-container welcome-screen">
+        <h1>Welcome to the Quiz!</h1>
+        <form onSubmit={handleStartQuiz} className="welcome-form">
+          <div className="input-group">
+            <label htmlFor="playerName">Enter your name to start:</label>
+            <input
+              type="text"
+              id="playerName"
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+              placeholder="Your name"
+              aria-label="Player name"
+              className="name-input"
+              minLength={2}
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="action-button"
+            aria-label="Start quiz"
+          >
+            Start Quiz
+          </button>
+        </form>
+      </div>
     );
   }
 
@@ -173,6 +203,18 @@ const App = () => {
   //   * Disabled state kapag may feedback na nagpapakita
   // - May conditional na Feedback component na lumalabas kung
   //   may sagot na at nagpapakita kung tama o mali
+  if (quizCompleted) {
+    return (
+      <FinalScore
+        score={score}
+        playerName={playerName}
+        leaderboard={leaderboard}
+        onRestart={handleRestart}
+        onShare={handleShare}
+      />
+    );
+  }
+
   return (
     <div className="quiz-container">
       <Timer timeLeft={timer} />

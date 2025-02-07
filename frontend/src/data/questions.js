@@ -1,21 +1,100 @@
 export const questions = [
   {
-    question: "What is the capital of France?",
-    options: ["London", "Berlin", "Paris", "Madrid"],
-    correct: 2,
-    hint: "This city is known as the City of Light",
+    question: "What does DOST stand for?",
+    options: [
+      "Department of Science and Technology",
+      "Department of Social Transformation",
+      "Development of Science and Training",
+      "Department of Systematic Technology",
+    ],
+    correct: 0,
+    hint: "It is a government agency focused on science and technology.",
   },
   {
-    question: "Which planet is known as the Red Planet?",
-    options: ["Venus", "Mars", "Jupiter", "Saturn"],
+    question: "What is the main goal of DOST?",
+    options: [
+      "To promote agriculture",
+      "To advance science and technology for national development",
+      "To regulate trade and commerce",
+      "To provide military support",
+    ],
     correct: 1,
-    hint: "Its color comes from iron oxide",
+    hint: "It focuses on research, innovation, and scientific advancements.",
   },
   {
-    question: "What is 2 + 2?",
-    options: ["3", "4", "5", "6"],
+    question: "Which government is responsible for the DOST?",
+    options: ["United States", "Philippines", "Japan", "Canada"],
     correct: 1,
-    hint: "Think of counting on your fingers",
+    hint: "It is a department in the Philippine government.",
+  },
+  {
+    question: "Who is the current Secretary of DOST?",
+    options: [
+      "Dr. Renato Solidum Jr.",
+      "Dr. William Padolina",
+      "Dr. Fortunato de la Peña",
+      "Dr. Mario Montejo",
+    ],
+    correct: 0,
+    hint: "He was appointed in 2022.",
+  },
+  {
+    question: "Which scholarship program is offered by DOST?",
+    options: [
+      "DOST-SEI",
+      "CHED Scholarship",
+      "DepEd Grant",
+      "TESDA Skills Program",
+    ],
+    correct: 0,
+    hint: "It is offered by the Science Education Institute.",
+  },
+  {
+    question: "Which of the following is a major project under DOST?",
+    options: [
+      "Balik Scientist Program",
+      "Pantawid Pamilyang Pilipino Program",
+      "Build, Build, Build Program",
+      "K-12 Education Program",
+    ],
+    correct: 0,
+    hint: "This program invites Filipino scientists abroad to work in the country.",
+  },
+  {
+    question:
+      "Which agency under DOST monitors weather and climate conditions?",
+    options: ["PAGASA", "PHIVOLCS", "NAMRIA", "DENR"],
+    correct: 0,
+    hint: "It provides weather forecasts and warnings.",
+  },
+  {
+    question: "What does PHIVOLCS, an agency under DOST, specialize in?",
+    options: [
+      "Meteorology",
+      "Volcanology and Seismology",
+      "Marine Research",
+      "Agricultural Studies",
+    ],
+    correct: 1,
+    hint: "It monitors earthquakes and volcanoes.",
+  },
+  {
+    question: "What is one of DOST’s flagship food technology projects?",
+    options: ["Nutribun", "Golden Rice", "Hybrid Corn", "Vermiculture"],
+    correct: 0,
+    hint: "This was originally created to combat malnutrition.",
+  },
+  {
+    question:
+      "Which innovation is supported by DOST to improve disaster preparedness?",
+    options: [
+      "Project NOAH",
+      "Oplan Tokhang",
+      "HULMA: Housing Project",
+      "SAP: Social Amelioration Program",
+    ],
+    correct: 0,
+    hint: "It provides real-time flood monitoring and disaster management.",
   },
 ];
 
